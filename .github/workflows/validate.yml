@@ -1,0 +1,31 @@
+# Every pull request and every push to main: each theme is checked the way LlamaTree reads it, a changed theme must carry
+# a new version, and the README's table of themes must match the theme files.
+name: Validate themes
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the themes
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            node tools/validate.mjs --base "origin/${{ github.base_ref }}"
+          else
+            node tools/validate.mjs
+          fi
+      - name: Check the README's table of themes
+        run: node tools/catalog.mjs --readme --check
