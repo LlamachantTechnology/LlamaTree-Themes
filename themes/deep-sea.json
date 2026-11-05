@@ -1,0 +1,44 @@
+{
+  "name": "Deep Sea",
+  "version": "1.0.0",
+  "description": "Navy water with sea-glass teal for lines and the accent, coral for what went wrong and sand for what needs you",
+  "author": "Llamachant Technology",
+  "base": "dark",
+  "accent": { "line": "#3ec7c2", "strong": "#136b72" },
+  "colors": {
+    "chrome": "#0b1622", "chrome-2": "#08111b", "chrome-3": "#060d15",
+    "panel": "#0e1b29", "panel-2": "#112133", "hover": "#16293d", "hover-strong": "#1d3550",
+    "border": "#1f3a52", "border-soft": "#162b3f", "border-strong": "#2c5272",
+    "text": "#c9dbe8", "text-dim": "#7f9cb3", "text-faint": "#4d6880", "text-strong": "#eef6fb",
+    "focus": "#3ec7c2", "select": "#173d55", "select-inactive": "#132e42",
+    "terminal-bg": "#08121c", "editor-bg": "#0a1520",
+    "ok": "#5ed39b", "working": "#3ec7c2", "attention": "#f2c46d", "asking": "#b08cff", "danger": "#ff6f61", "danger-fill": "#a3352b",
+    "st-m": "#f2c46d", "st-a": "#5ed39b", "st-d": "#ff6f61", "st-r": "#7fd8f2", "st-u": "#d6e685",
+    "info-bg": "#0f2a3a", "info-border": "#1f4f66", "error-bg": "#2e1418", "error-border": "#73303a",
+    "pv-warn-bg": "#2b2410", "pv-warn-border": "#6b5a26",
+    "ico-folder": "#e8b65a", "ico-file": "#7f9cb3", "graph": "#2f9a96",
+    "ref-bg": "#173d55", "ref-fg": "#cfe9f5", "ref-head-bg": "#136b72", "ref-head-fg": "#ffffff", "ref-tag-bg": "#3a3215", "ref-tag-fg": "#f6dfa2",
+    "scroll-thumb": "#1f3a52", "scroll-thumb-hover": "#2c5272",
+    "tab-border-shown": "#2f9a96", "tab-border-hover": "#3ec7c2",
+    "tick": "#1f3a52", "tick-active": "#7f9cb3", "tick-hot": "#3ec7c2",
+    "card-bg": "#0e1b29", "card-border": "#1f3a52", "bubble": "#112133",
+    "code-fg": "#9fe3df", "code-bg": "#060d15", "well": "#08111b", "table-head": "#112133",
+    "link": "#5fd4e8", "update-fg": "#ffffff"
+  },
+  "terminal": {
+    "background": "#08121c", "foreground": "#c9dbe8", "cursor": "#3ec7c2", "cursorAccent": "#08121c",
+    "selectionBackground": "#1d4a66", "selectionInactiveBackground": "#163a52",
+    "black": "#0f1e2c", "red": "#ff6f61", "green": "#5ed39b", "yellow": "#f2c46d", "blue": "#5aa7ff", "magenta": "#c792ea", "cyan": "#3ec7c2", "white": "#c9dbe8",
+    "brightBlack": "#4d6880", "brightRed": "#ff9a8f", "brightGreen": "#8ee8bd", "brightYellow": "#f8da9c", "brightBlue": "#8cc2ff", "brightMagenta": "#dcb6f5", "brightCyan": "#7fe3df", "brightWhite": "#eef6fb",
+    "overviewRulerBorder": "#08121c",
+    "scrollbarSliderBackground": "#1f3a5299", "scrollbarSliderHoverBackground": "#2c5272cc", "scrollbarSliderActiveBackground": "#3ec7c299"
+  },
+  "diff": {
+    "background": "#0a1520", "foreground": "#c9dbe8", "lineNumber": "#4d6880", "lineNumberActive": "#3ec7c2",
+    "selection": "#1d4a66", "cursor": "#3ec7c2", "lineHighlightBorder": "#162b3f",
+    "insertedLine": "#1f6b4a44", "insertedText": "#2fa06e55", "removedLine": "#7a2a2a44", "removedText": "#c0443a55",
+    "insertedGutter": "#1f6b4a99", "removedGutter": "#7a2a2a99", "insertedOverview": "#5ed39bcc", "removedOverview": "#ff6f61cc",
+    "diagonalFill": "#162b3f80", "scrollbar": "#1f3a5299",
+    "comment": "#4d7a8f", "keyword": "#5aa7ff", "string": "#f2c46d", "number": "#c792ea", "type": "#3ec7c2"
+  }
+}

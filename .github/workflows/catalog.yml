@@ -1,0 +1,44 @@
+# Every push to main that touches a theme (and on demand): the themes are checked, catalog.json is rebuilt from all of
+# them, and it's put on the rolling "catalog" release, which is what LlamaTree's Get themes reads. A theme is small and
+# only data, so the catalog carries each one whole; there are no per-theme releases.
+name: Publish the catalog
+
+on:
+  push:
+    branches: [main]
+    paths: ['themes/**', 'tools/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: catalog
+  cancel-in-progress: false
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check the themes
+        run: node tools/validate.mjs
+
+      - name: Build the catalog
+        run: |
+          mkdir -p out
+          node tools/catalog.mjs --out out/catalog.json
+          cat out/catalog.json
+
+      - name: Put it on the rolling "catalog" release
+        run: |
+          if ! gh release view catalog >/dev/null 2>&1; then
+            gh release create catalog --title "Theme catalog" --notes "catalog.json: every theme in themes/, rebuilt on every push to main. LlamaTree reads it to offer the themes; nobody edits it by hand." --latest=false
+          fi
+          gh release upload catalog out/catalog.json --clobber
