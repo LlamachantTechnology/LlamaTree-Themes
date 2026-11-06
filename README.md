@@ -7,11 +7,13 @@ Themes for [LlamaTree](https://github.com/LlamachantTechnology/LlamaTree), one f
 <!-- themes:start -->
 | Theme | What it looks like | Version | Base | Effects |
 |---|---|---|---|---|
+| [Cyberpunk](themes/cyberpunk.json) | Electric yellow on near-black with neon cyan and magenta, over a glitching city screen: circuit traces, a skyline under magenta haze and an access matrix solving itself | 1.0.0 | dark | glow, its own floor |
 | [Deep Sea](themes/deep-sea.json) | Navy water with sea-glass teal for lines and the accent, coral for what went wrong and sand for what needs you | 1.0.0 | dark |  |
 | [Ember](themes/ember.json) | Warm charcoal lit by a coal-orange accent with a faint glow, olive for what went well and rose for a question | 1.0.0 | dark | glow |
 | [Matrix](themes/matrix.json) | Green phosphor on black in a monospaced face, with glyphs raining down the window’s floor and, dimmed, behind the terminals’ text | 1.0.0 | dark | glow, rain |
 | [Nerds](themes/nerds.json) | Everything in shades of your accent colour on near-black, like an old monochrome screen, in a monospaced face with a faint glow | 1.0.0 | dark | glow, monochrome |
 | [Parchment](themes/parchment.json) | A light theme on warm paper, with ink-brown text, a sepia accent and muted greens and reds that are easy on the eyes | 1.0.0 | light |  |
+| [Steampunk Pirate](themes/steampunk-pirate.json) | Walnut, leather and brass in an airship captain’s cabin, over a chart table with its machinery at work: gears and a piston, steam, gauges for your crew, and a telegraph tapping their report | 1.0.0 | dark | its own floor |
 | [Tron](themes/tron.json) | The Grid: near-black ruled with light-lines in your accent colour, with a glow and a light cycle riding beside the cursor | 1.0.0 | dark | glow, grid, light-cycle, monochrome |
 <!-- themes:end -->
 
