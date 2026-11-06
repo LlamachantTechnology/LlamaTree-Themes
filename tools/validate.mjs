@@ -10,6 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const themesDir = path.join(root, 'themes');
@@ -25,6 +26,17 @@ const SIX = /^#[0-9a-fA-F]{6}$/;
 const FONT = /^[A-Za-z0-9][A-Za-z0-9 \-]{0,59}$/;
 const MAX_BYTES = 64 * 1024;
 const MAX_ACCENTS = 8;
+// A floor: themes/<id>.floor.js, which the catalog puts into the theme as "floor" (see catalog.mjs).
+const MAX_FLOOR_CHARS = 256 * 1024;   // as LlamaTree takes it (ThemeCatalog.MaxFloorChars)
+const FLOOR_APP = '1.3.2';            // the first LlamaTree that draws one
+/**
+ * Names a floor mustn't use. LlamaTree runs a floor in a worker inside a sandboxed frame that allows no network, no
+ * storage and no messages but its own, so none of these would work there anyway. Refusing them here makes a floor that
+ * tries plainly wrong at once, rather than quietly broken, and keeps a reviewer's eye on the drawing.
+ */
+const FLOOR_FORBIDDEN = ['fetch', 'XMLHttpRequest', 'WebSocket', 'WebTransport', 'EventSource', 'importScripts', 'Worker', 'SharedWorker',
+  'RTCPeerConnection', 'indexedDB', 'caches', 'localStorage', 'sessionStorage', 'sendBeacon', 'FontFace', 'postMessage', 'onmessage',
+  'addEventListener', 'eval', 'Function', 'import', 'location', 'navigator', 'createImageBitmap', 'Image', 'Request', 'BroadcastChannel'];
 
 export const COLORS = [
   'chrome', 'chrome-2', 'chrome-3', 'panel', 'panel-2', 'hover', 'hover-strong', 'border', 'border-soft', 'border-strong',
@@ -65,6 +77,34 @@ export function readTheme(id) {
   const bytes = fs.readFileSync(path.join(themesDir, id + '.json'));
   const bom = bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf;
   return { theme: JSON.parse(bytes.subarray(bom ? 3 : 0).toString('utf8')), bom, size: bytes.length };
+}
+
+/** A theme's floor script (themes/<id>.floor.js), or null when it has none. */
+export function readFloor(id) {
+  const file = path.join(themesDir, id + '.floor.js');
+  return fs.existsSync(file) ? fs.readFileSync(file, 'utf8').replace(/^﻿/, '') : null;
+}
+
+/** The floor's script with its comments and the text of its strings taken out, for checking the names it uses. */
+function floorCode(text) {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/\/\/[^\n]*/g, ' ')
+    .replace(/'(?:\\.|[^'\\\n])*'|"(?:\\.|[^"\\\n])*"|`(?:\\.|[^`\\])*`/g, '""');
+}
+
+function checkFloor(id, t, script) {
+  if (script.length > MAX_FLOOR_CHARS) problem(id, `its floor is over ${MAX_FLOOR_CHARS / 1024}K characters`);
+  try { new vm.Script(script, { filename: id + '.floor.js' }); }   // compiled to check it, never run
+  catch (e) { return problem(id, `its floor isn't valid JavaScript: ${e.message}`); }
+  const code = floorCode(script);
+  if (!/\bfloor\s*\(/.test(code)) problem(id, 'its floor never calls floor({ draw(ctx, now, info) { … } })');
+  for (const name of FLOOR_FORBIDDEN) {
+    if (new RegExp(`(?<![\\w$])${name}(?![\\w$])`).test(code)) problem(id, `its floor uses "${name}", which a floor has no use for: it draws, and nothing else`);
+  }
+  const atLeast = (a, b) => { const [x, y] = [a, b].map((v) => v.split('.').map(Number)); for (let i = 0; i < 3; i++) if (x[i] !== y[i]) return x[i] > y[i]; return true; };
+  if (typeof t.minAppVersion !== 'string' || !SEMVER.test(t.minAppVersion) || !atLeast(t.minAppVersion, FLOOR_APP))
+    problem(id, `a theme with a floor needs "minAppVersion": "${FLOOR_APP}" or later, since older LlamaTree doesn't draw one`);
 }
 
 function checkSection(id, t, section, names, valid, what) {
@@ -117,12 +157,15 @@ function checkTheme(id) {
   checkSection(id, t, 'colors', COLORS, CSS_COLOR, 'a colour');
   checkSection(id, t, 'terminal', TERMINAL, CSS_COLOR, 'a colour');
   checkSection(id, t, 'diff', DIFF, HEX_COLOR, 'a colour written #rrggbb or #rrggbbaa');
+  if ('floor' in t) problem(id, `a floor goes in themes/${id}.floor.js, not in the theme's file`);
+  const script = readFloor(id);
+  if (script !== null) checkFloor(id, t, script);
 }
 
 /** Themes whose file changed since `ref`, and the version each had there (null for a new theme). */
 function changedSince(ref) {
   const out = execFileSync('git', ['diff', '--name-only', `${ref}...HEAD`, '--', 'themes'], { cwd: root, encoding: 'utf8' });
-  const ids = [...new Set(out.split('\n').map((f) => f.match(/^themes\/([^/]+)\.json$/)?.[1]).filter(Boolean))];
+  const ids = [...new Set(out.split('\n').map((f) => f.match(/^themes\/([^/]+?)(?:\.floor\.js|\.json)$/)?.[1]).filter(Boolean))];
   return ids.map((id) => {
     let was = null;
     try { was = JSON.parse(execFileSync('git', ['show', `${ref}:themes/${id}.json`], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })).version ?? null; }
@@ -136,11 +179,17 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   for (const f of fs.readdirSync(themesDir)) {
     const full = path.join(themesDir, f);
     if (fs.lstatSync(full).isSymbolicLink()) problem(f, 'a link isn\'t allowed');
-    else if (!f.endsWith('.json')) problem(f, 'themes/ holds only <id>.json files');
+    else if (f.endsWith('.floor.js')) {
+      if (!fs.existsSync(path.join(themesDir, f.slice(0, -'.floor.js'.length) + '.json'))) problem(f, 'a floor needs its theme: <id>.json beside <id>.floor.js');
+    }
+    else if (!f.endsWith('.json')) problem(f, 'themes/ holds only <id>.json files, and <id>.floor.js for a theme with a floor');
   }
   const ids = only.length ? only : themeIds();
   for (const id of ids) checkTheme(id);
   if (base) {
+    const floors = execFileSync('git', ['diff', '--name-only', `${base}...HEAD`, '--', 'themes/*.floor.js'], { cwd: root, encoding: 'utf8' }).split('\n').filter(Boolean);
+    // A floor is code: it's run sandboxed, but it still needs a maintainer's read (CODEOWNERS asks for one).
+    for (const f of floors) console.log(`::warning file=${f}::${f} is a floor (code). A maintainer must review it before it's merged.`);
     for (const { id, was } of changedSince(base)) {
       if (!fs.existsSync(path.join(themesDir, id + '.json')) || !was) continue;   // removed, or new
       const now = readTheme(id).theme.version;
