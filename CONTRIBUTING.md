@@ -4,7 +4,9 @@ A theme is a JSON file of colours that LlamaTree applies to the whole app: its o
 
 ## Layout
 
-One file per theme under `themes/`. The file's name is the theme's id: letters, digits and hyphens, 40 at most, not starting or ending with a hyphen, and not `light`, `dark`, `system` or the name of a theme LlamaTree comes with (`nerds`, `tron`, `matrix`). It's how the app knows the theme once installed, so it can't change without the theme becoming a new one.
+One file per theme under `themes/`. The file's name is the theme's id: letters, digits and hyphens, 40 at most, not starting or ending with a hyphen, and not `light`, `dark` or `system`. It's how the app knows the theme once installed, so it can't change without the theme becoming a new one.
+
+**The themes LlamaTree comes with**, Matrix, Nerds and Tron, live here too. The app ships a copy of each, so they're there without Get themes. A newer version published here reaches people through Get themes (it offers **Update**, and the newer copy takes the place of the app's own), and the next LlamaTree release ships it: a release checks its copies match what's published here (`tools/sync-themes.mjs` in LlamaTree).
 
 ```
 themes/<id>.json
