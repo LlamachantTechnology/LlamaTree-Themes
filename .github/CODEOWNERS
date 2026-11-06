@@ -1,0 +1,7 @@
+# A floor is a theme's one piece of code. LlamaTree runs it sandboxed (no network, no storage, nothing of the app), but
+# every floor still gets a maintainer's read before it's published: with branch protection's "Require review from Code
+# Owners" on, a pull request that adds or changes one can't be merged without it.
+themes/*.floor.js @davellamachant
+tools/ @davellamachant
+schema/ @davellamachant
+.github/ @davellamachant
