@@ -1,6 +1,6 @@
 # LlamaTree themes
 
-Themes for [LlamaTree](https://github.com/LlamachantTechnology/LlamaTree), one file each under [`themes/`](themes). A theme is only data: colours for the app, its terminals and its diffs, and a few effects the app already knows (a glow, the Grid, digital rain, a light cycle cursor). It can't restyle anything else, or load or run anything.
+Themes for [LlamaTree](https://github.com/LlamachantTechnology/LlamaTree), one file each under [`themes/`](themes). A theme is colours for the app, its terminals and its diffs, and a few effects the app already knows (a glow, the Grid, digital rain, a light cycle cursor). It can't restyle anything else or load anything. A theme can also draw a floor of its own: its one piece of code, which LlamaTree runs sandboxed, with no network and nothing of the app or your sessions but how many there are, and which a maintainer reads before it's published (see [CONTRIBUTING.md](CONTRIBUTING.md#a-floor-of-its-own)).
 
 ## The themes
 

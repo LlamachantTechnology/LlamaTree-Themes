@@ -6,12 +6,13 @@
 //   node tools/catalog.mjs --readme --check    fail if the README table is out of date (the validate workflow)
 //   node tools/catalog.mjs --out catalog.json  write the catalog
 //
-// A theme is small and only data, so the catalog carries each one whole: the app shows it, and lets you try it on, before
-// it's installed, and installing it writes it to the themes folder as <id>.json.
+// A theme is small, so the catalog carries each one whole: the app shows it, and lets you try it on, before it's installed,
+// and installing it writes it to the themes folder as <id>.json. A theme's floor (themes/<id>.floor.js) goes into it as
+// "floor", the one piece of code a theme can have, which LlamaTree runs sandboxed (see CONTRIBUTING.md).
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { themeIds, readTheme, META } from './validate.mjs';
+import { themeIds, readTheme, readFloor, META } from './validate.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const REPO = 'LlamachantTechnology/LlamaTree-Themes';
@@ -22,6 +23,8 @@ function entries() {
   return themeIds().map((id) => {
     const { theme } = readTheme(id);
     const look = Object.fromEntries(Object.entries(theme).filter(([k]) => !META.includes(k)));
+    const floor = readFloor(id);
+    if (floor !== null) look.floor = floor;   // its own file here; one string in the theme LlamaTree reads
     return {
       id, name: theme.name, version: theme.version, minAppVersion: theme.minAppVersion ?? null,
       description: theme.description ?? '', author: theme.author ?? null, base: theme.base ?? 'dark', theme: look,
@@ -30,7 +33,7 @@ function entries() {
 }
 
 function readmeTable(list) {
-  const effects = (t) => [t.glow && 'glow', t.grid && 'grid', t.rain && 'rain', t.cursor && t.cursor, t.monochrome && 'monochrome'].filter(Boolean).join(', ') || '';
+  const effects = (t) => [t.glow && 'glow', t.grid && 'grid', t.rain && 'rain', t.cursor && t.cursor, t.monochrome && 'monochrome', t.floor && 'its own floor'].filter(Boolean).join(', ') || '';
   const lines = ['| Theme | What it looks like | Version | Base | Effects |', '|---|---|---|---|---|'];
   for (const e of list) lines.push(`| [${e.name}](themes/${e.id}.json) | ${e.description} | ${e.version} | ${e.base} | ${effects(e.theme)} |`);
   return lines.join('\n');
