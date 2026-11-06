@@ -1,0 +1,25 @@
+{
+  "name": "Nerds",
+  "version": "1.0.0",
+  "minAppVersion": "1.3.2",
+  "description": "Everything in shades of your accent colour on near-black, like an old monochrome screen, in a monospaced face with a faint glow",
+  "author": "Llamachant Technology",
+  "base": "dark",
+  "font": "Cascadia Mono",
+  "glow": true,
+  "monochrome": true,
+  "accents": [
+    {
+      "name": "Green phosphor",
+      "color": "#33ff66"
+    },
+    {
+      "name": "Amber",
+      "color": "#ffb000"
+    },
+    {
+      "name": "Paper white",
+      "color": "#e8e8e8"
+    }
+  ]
+}

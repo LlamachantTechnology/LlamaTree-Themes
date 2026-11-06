@@ -16,8 +16,6 @@ const themesDir = path.join(root, 'themes');
 
 const ID = /^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$/;
 const RESERVED = ['system', 'light', 'dark'];
-// Themes LlamaTree comes with: a theme here can't take their names.
-const BUILT_IN = ['nerds', 'tron', 'matrix'];
 const SEMVER = /^\d+\.\d+\.\d+$/;
 const CSS_COLOR = /^(?:#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*(?:0|1|0?\.\d+)\s*)?\))$/;
 const HEX_COLOR = /^#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
@@ -79,7 +77,6 @@ function checkSection(id, t, section, names, valid, what) {
 function checkTheme(id) {
   if (!ID.test(id)) return problem(id, 'the file\'s name must be letters, digits and hyphens, 40 at most, not starting or ending with a hyphen');
   if (RESERVED.includes(id)) return problem(id, 'light, dark and system are the app\'s own choices');
-  if (BUILT_IN.includes(id)) return problem(id, 'LlamaTree comes with a theme of that name');
   let t, r;
   try { r = readTheme(id); t = r.theme; }
   catch (e) { return problem(id, `it can't be read: ${e.message}`); }
