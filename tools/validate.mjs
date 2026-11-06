@@ -60,7 +60,7 @@ export const DIFF = [
 
 /** What a theme's file says about itself for the gallery, rather than how it looks. */
 export const META = ['version', 'description', 'author', 'minAppVersion'];
-const LOOK = ['name', 'base', 'font', 'glow', 'grid', 'rain', 'monochrome', 'cursor', 'terminalBackground', 'accent', 'accents', 'colors', 'terminal', 'diff'];
+const LOOK = ['name', 'base', 'font', 'glow', 'grid', 'rain', 'monochrome', 'cursor', 'cycle', 'terminalBackground', 'accent', 'accents', 'colors', 'terminal', 'diff'];
 
 const args = process.argv.slice(2);
 const base = args.includes('--base') ? args[args.indexOf('--base') + 1] : null;
@@ -103,6 +103,56 @@ function checkFloor(id, t, script) {
   const atLeast = (a, b) => { const [x, y] = [a, b].map((v) => v.split('.').map(Number)); for (let i = 0; i < 3; i++) if (x[i] !== y[i]) return x[i] > y[i]; return true; };
   if (typeof t.minAppVersion !== 'string' || !SEMVER.test(t.minAppVersion) || !atLeast(t.minAppVersion, FLOOR_APP))
     problem(id, `a theme with a floor needs "minAppVersion": "${FLOOR_APP}" or later, since older LlamaTree doesn't draw one`);
+}
+
+// A light cycle of its own ("cycle", with "cursor": "light-cycle"): shapes, numbers and colours, checked as LlamaTree's
+// ThemeCycle checks them, but strictly: anything it would leave out is an error here.
+const CYCLE_PATH = /^\s*[Mm][MmLlHhVvCcSsQqTtAaZz0-9eE.,+\-\s]*$/;
+const CYCLE_SHAPES = { circle: 3, ellipse: 4, rect: 4, line: 4, polyline: 0, polygon: 0, path: -1 };
+const cycleColour = (v) => typeof v === 'string' && (['cursor', 'accent', 'none'].includes(v) || COLORS.includes(v) || /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(v));
+const inRange = (v, lo, hi, whole = false) => typeof v === 'number' && Number.isFinite(v) && v >= lo && v <= hi && (!whole || Number.isInteger(v));
+const numbers = (a) => Array.isArray(a) && a.every((n) => typeof n === 'number' && Number.isFinite(n) && Math.abs(n) <= 10000);
+
+function checkCycle(id, t) {
+  const c = t.cycle;
+  if (t.cursor !== 'light-cycle') problem(id, '"cycle" is for "cursor": "light-cycle", which this theme doesn\'t have');
+  if (!c || typeof c !== 'object' || Array.isArray(c)) return problem(id, '"cycle" is an object of the light cycle\'s picture and options');
+  for (const k of Object.keys(c)) if (!['image', 'size', 'offset', 'glow', 'trail'].includes(k)) problem(id, `cycle.${k} isn't something the light cycle has`);
+  if (c.size !== undefined && !inRange(c.size, 1, 6, true)) problem(id, 'cycle.size is a whole number from 1 to 6');
+  if (c.offset !== undefined && !inRange(c.offset, 0, 60, true)) problem(id, 'cycle.offset is a whole number from 0 to 60');
+  if (c.glow !== undefined && !inRange(c.glow, 0, 20)) problem(id, 'cycle.glow is a number from 0 to 20');
+  if (c.trail !== undefined && c.trail !== false) {
+    const tr = c.trail;
+    if (!tr || typeof tr !== 'object' || Array.isArray(tr)) problem(id, 'cycle.trail is false (no ribbon) or its options');
+    else {
+      for (const k of Object.keys(tr)) if (!['width', 'glow', 'fade', 'at', 'colour'].includes(k)) problem(id, `cycle.trail.${k} isn't something the ribbon has`);
+      if (tr.width !== undefined && !inRange(tr.width, 1, 6)) problem(id, 'cycle.trail.width is a number from 1 to 6');
+      if (tr.glow !== undefined && !inRange(tr.glow, 0, 20)) problem(id, 'cycle.trail.glow is a number from 0 to 20');
+      if (tr.fade !== undefined && !inRange(tr.fade, 200, 3000, true)) problem(id, 'cycle.trail.fade is a whole number of milliseconds from 200 to 3000');
+      if (tr.at !== undefined && !inRange(tr.at, 0, 1)) problem(id, 'cycle.trail.at is a number from 0 (top) to 1 (bottom)');
+      if (tr.colour !== undefined && (!cycleColour(tr.colour) || tr.colour === 'none')) problem(id, 'cycle.trail.colour is "cursor", "accent", one of the page\'s colours, or #rrggbb');
+    }
+  }
+  if (c.image === undefined) return;
+  const img = c.image;
+  if (!img || typeof img !== 'object' || !numbers(img.viewBox) || img.viewBox.length !== 4 || !(img.viewBox[2] > 0 && img.viewBox[2] <= 1000 && img.viewBox[3] > 0 && img.viewBox[3] <= 1000))
+    problem(id, 'cycle.image.viewBox is [x, y, width, height], each width and height above 0 and up to 1000');
+  if (!Array.isArray(img?.shapes) || img.shapes.length === 0) return problem(id, 'cycle.image.shapes is a list of the picture\'s shapes');
+  if (img.shapes.length > 64) problem(id, 'cycle.image has more than 64 shapes');
+  img.shapes.forEach((sh, i) => {
+    const where = `cycle.image.shapes[${i}]`;
+    if (!sh || typeof sh !== 'object' || Array.isArray(sh)) return problem(id, `${where} is an object with one shape`);
+    const kinds = Object.keys(sh).filter((k) => k in CYCLE_SHAPES);
+    for (const k of Object.keys(sh)) if (!(k in CYCLE_SHAPES) && !['fill', 'stroke', 'width', 'opacity'].includes(k)) problem(id, `${where}.${k} isn't something a shape has`);
+    if (kinds.length !== 1) return problem(id, `${where} needs exactly one of circle, ellipse, rect, line, polyline, polygon or path`);
+    const kind = kinds[0], v = sh[kind], n = CYCLE_SHAPES[kind];
+    if (kind === 'path') {
+      if (typeof v !== 'string' || !v.length || v.length > 4000 || !CYCLE_PATH.test(v)) problem(id, `${where}.path is path data (commands and numbers, starting with M) of up to 4000 characters`);
+    } else if (!numbers(v) || (n > 0 ? v.length !== n : v.length < 4 || v.length > 200 || v.length % 2)) problem(id, `${where}.${kind} isn't the numbers a ${kind} takes`);
+    for (const k of ['fill', 'stroke']) if (sh[k] !== undefined && !cycleColour(sh[k])) problem(id, `${where}.${k} isn't a colour ("cursor", "accent", one of the page's colours, #rrggbb or "none")`);
+    if (sh.width !== undefined && !inRange(sh.width, 0, 8)) problem(id, `${where}.width is a number from 0 to 8`);
+    if (sh.opacity !== undefined && !inRange(sh.opacity, 0, 1)) problem(id, `${where}.opacity is a number from 0 to 1`);
+  });
 }
 
 function checkSection(id, t, section, names, valid, what) {
@@ -155,6 +205,7 @@ function checkTheme(id) {
   checkSection(id, t, 'terminal', TERMINAL, CSS_COLOR, 'a colour');
   checkSection(id, t, 'diff', DIFF, HEX_COLOR, 'a colour written #rrggbb or #rrggbbaa');
   if ('floor' in t) problem(id, `a floor goes in themes/${id}.floor.js, not in the theme's file`);
+  if (t.cycle !== undefined) checkCycle(id, t);
   const script = readFloor(id);
   if (script !== null) checkFloor(id, t, script);
 }
