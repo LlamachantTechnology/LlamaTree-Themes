@@ -1,13 +1,12 @@
 {
   "name": "Matrix",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minAppVersion": "1.3.2",
   "description": "Green phosphor on black in a monospaced face, with glyphs raining down the window’s floor and, dimmed, behind the terminals’ text",
   "author": "Llamachant Technology",
   "base": "dark",
   "font": "Cascadia Mono",
   "glow": true,
-  "rain": true,
   "terminalBackground": 42,
   "accent": {
     "line": "#39ff6a",
