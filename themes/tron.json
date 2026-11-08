@@ -1,14 +1,18 @@
 {
   "name": "Tron",
-  "version": "1.2.0",
-  "minAppVersion": "1.3.2",
-  "description": "The Grid: near-black ruled with light-lines in your accent colour, with a glow, a light cycle riding beside the cursor and another running the Grid's lines across the window's floor",
+  "version": "1.2.1",
+  "minAppVersion": "1.3.4",
+  "description": "The Grid: near-black ruled with light-lines in your accent colour, with a glow, a light cycle as the cursor and another running the Grid's lines across the window's floor",
   "author": "Llamachant Technology",
   "base": "dark",
   "font": "Bahnschrift",
   "glow": true,
   "terminalBackground": 85,
   "cursor": "light-cycle",
+  "cycle": {
+    "size": 1,
+    "offset": 0
+  },
   "monochrome": true,
   "accents": [
     {
