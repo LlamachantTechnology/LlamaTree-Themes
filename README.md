@@ -14,7 +14,7 @@ Themes for [LlamaTree](https://github.com/LlamachantTechnology/LlamaTree), one f
 | [Nerds](themes/nerds.json) | Everything in shades of your accent colour on near-black, like an old monochrome screen, in a monospaced face with a faint glow | 1.0.0 | dark | glow, monochrome |
 | [Parchment](themes/parchment.json) | A light theme on warm paper, with ink-brown text, a sepia accent and muted greens and reds that are easy on the eyes | 1.0.0 | light |  |
 | [Steampunk Pirate](themes/steampunk-pirate.json) | Walnut, leather and brass in an airship captain’s cabin, over a chart table with its machinery at work: gears and a piston, steam, gauges for your crew, and a telegraph tapping their report | 1.0.0 | dark | its own floor |
-| [Tron](themes/tron.json) | The Grid: near-black ruled with light-lines in your accent colour, with a glow and a light cycle riding beside the cursor | 1.1.0 | dark | glow, light-cycle, monochrome, its own floor |
+| [Tron](themes/tron.json) | The Grid: near-black ruled with light-lines in your accent colour, with a glow, a light cycle riding beside the cursor and another running the Grid's lines across the window's floor | 1.2.0 | dark | glow, light-cycle, monochrome, its own floor |
 <!-- themes:end -->
 
 The table is written by `node tools/catalog.mjs --readme` from the theme files.
