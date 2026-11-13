@@ -33,7 +33,7 @@ function entries() {
 }
 
 function readmeTable(list) {
-  const effects = (t) => [t.glow && 'glow', t.grid && 'grid', t.rain && 'rain', t.cursor && t.cursor, t.monochrome && 'monochrome', t.floor && 'its own floor'].filter(Boolean).join(', ') || '';
+  const effects = (t) => [t.glow && 'glow', t.grid && 'grid', t.rain && 'rain', t.cursor && t.cursor, t.monochrome && 'monochrome', t.dots && 'its own status dots', t.floor && 'its own floor'].filter(Boolean).join(', ') || '';
   const lines = ['| Theme | What it looks like | Version | Base | Effects |', '|---|---|---|---|---|'];
   for (const e of list) lines.push(`| [${e.name}](themes/${e.id}.json) | ${e.description} | ${e.version} | ${e.base} | ${effects(e.theme)} |`);
   return lines.join('\n');

@@ -60,7 +60,7 @@ export const DIFF = [
 
 /** What a theme's file says about itself for the gallery, rather than how it looks. */
 export const META = ['version', 'description', 'author', 'minAppVersion'];
-const LOOK = ['name', 'base', 'font', 'glow', 'grid', 'rain', 'monochrome', 'cursor', 'cycle', 'terminalBackground', 'accent', 'accents', 'colors', 'terminal', 'diff'];
+const LOOK = ['name', 'base', 'font', 'glow', 'grid', 'rain', 'monochrome', 'cursor', 'cycle', 'dots', 'terminalBackground', 'accent', 'accents', 'colors', 'terminal', 'diff'];
 
 const args = process.argv.slice(2);
 const base = args.includes('--base') ? args[args.indexOf('--base') + 1] : null;
@@ -133,14 +133,19 @@ function checkCycle(id, t) {
       if (tr.colour !== undefined && (!cycleColour(tr.colour) || tr.colour === 'none')) problem(id, 'cycle.trail.colour is "cursor", "accent", one of the page\'s colours, or #rrggbb');
     }
   }
-  if (c.image === undefined) return;
-  const img = c.image;
-  if (!img || typeof img !== 'object' || !numbers(img.viewBox) || img.viewBox.length !== 4 || !(img.viewBox[2] > 0 && img.viewBox[2] <= 1000 && img.viewBox[3] > 0 && img.viewBox[3] <= 1000))
-    problem(id, 'cycle.image.viewBox is [x, y, width, height], each width and height above 0 and up to 1000');
-  if (!Array.isArray(img?.shapes) || img.shapes.length === 0) return problem(id, 'cycle.image.shapes is a list of the picture\'s shapes');
-  if (img.shapes.length > 64) problem(id, 'cycle.image has more than 64 shapes');
+  if (c.image !== undefined) checkImage(id, 'cycle.image', c.image, cycleColour, '"cursor", "accent", one of the page\'s colours, #rrggbb or "none"');
+}
+
+/** A picture ("image"): a viewBox and shapes, as the light cycle and the status dots have. */
+function checkImage(id, at, img, isColour, colours) {
+  if (!img || typeof img !== 'object' || Array.isArray(img)) return problem(id, `${at} is an object with a viewBox and shapes`);
+  for (const k of Object.keys(img)) if (!['viewBox', 'shapes'].includes(k)) problem(id, `${at}.${k} isn't something a picture has`);
+  if (!numbers(img.viewBox) || img.viewBox.length !== 4 || !(img.viewBox[2] > 0 && img.viewBox[2] <= 1000 && img.viewBox[3] > 0 && img.viewBox[3] <= 1000))
+    problem(id, `${at}.viewBox is [x, y, width, height], each width and height above 0 and up to 1000`);
+  if (!Array.isArray(img.shapes) || img.shapes.length === 0) return problem(id, `${at}.shapes is a list of the picture's shapes`);
+  if (img.shapes.length > 64) problem(id, `${at} has more than 64 shapes`);
   img.shapes.forEach((sh, i) => {
-    const where = `cycle.image.shapes[${i}]`;
+    const where = `${at}.shapes[${i}]`;
     if (!sh || typeof sh !== 'object' || Array.isArray(sh)) return problem(id, `${where} is an object with one shape`);
     const kinds = Object.keys(sh).filter((k) => k in CYCLE_SHAPES);
     for (const k of Object.keys(sh)) if (!(k in CYCLE_SHAPES) && !['fill', 'stroke', 'width', 'opacity'].includes(k)) problem(id, `${where}.${k} isn't something a shape has`);
@@ -149,10 +154,34 @@ function checkCycle(id, t) {
     if (kind === 'path') {
       if (typeof v !== 'string' || !v.length || v.length > 4000 || !CYCLE_PATH.test(v)) problem(id, `${where}.path is path data (commands and numbers, starting with M) of up to 4000 characters`);
     } else if (!numbers(v) || (n > 0 ? v.length !== n : v.length < 4 || v.length > 200 || v.length % 2)) problem(id, `${where}.${kind} isn't the numbers a ${kind} takes`);
-    for (const k of ['fill', 'stroke']) if (sh[k] !== undefined && !cycleColour(sh[k])) problem(id, `${where}.${k} isn't a colour ("cursor", "accent", one of the page's colours, #rrggbb or "none")`);
+    for (const k of ['fill', 'stroke']) if (sh[k] !== undefined && !isColour(sh[k])) problem(id, `${where}.${k} isn't a colour (${colours})`);
     if (sh.width !== undefined && !inRange(sh.width, 0, 8)) problem(id, `${where}.width is a number from 0 to 8`);
     if (sh.opacity !== undefined && !inRange(sh.opacity, 0, 1)) problem(id, `${where}.opacity is a number from 0 to 1`);
   });
+}
+
+// Status dots of its own ("dots"): a picture for each state a session can be in, and how it moves, checked as
+// LlamaTree's ThemeDots checks them, but strictly.
+const DOT_STATES = ['idle', 'working', 'waiting', 'asking', 'stopped'];
+const DOT_MOTIONS = ['none', 'spin', 'pulse', 'breathe', 'blink', 'beat', 'hop', 'shake'];
+const dotColour = (v) => typeof v === 'string' && (['status', 'accent', 'none'].includes(v) || COLORS.includes(v) || /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(v));
+
+function checkDots(id, t) {
+  const d = t.dots;
+  if (!d || typeof d !== 'object' || Array.isArray(d)) return problem(id, `"dots" is an object of a picture for each state (${DOT_STATES.join(', ')})`);
+  if (d.size !== undefined && !inRange(d.size, 6, 14, true)) problem(id, 'dots.size is a whole number from 6 to 14');
+  if (d.about !== undefined && (typeof d.about !== 'string' || !d.about.trim() || d.about.trim().length > 200)) problem(id, 'dots.about is a sentence of up to 200 characters');
+  let drawn = 0;
+  for (const [k, s] of Object.entries(d)) {
+    if (k === 'size' || k === 'about') continue;
+    if (!DOT_STATES.includes(k)) { problem(id, `dots.${k} isn't a state; the states are ${DOT_STATES.join(', ')}`); continue; }
+    if (!s || typeof s !== 'object' || Array.isArray(s) || s.image === undefined) { problem(id, `dots.${k} needs an "image" (and a "motion" if it moves)`); continue; }
+    drawn++;
+    for (const p of Object.keys(s)) if (!['image', 'motion'].includes(p)) problem(id, `dots.${k}.${p} isn't something a dot has`);
+    if (s.motion !== undefined && !DOT_MOTIONS.includes(s.motion)) problem(id, `dots.${k}.motion is one of ${DOT_MOTIONS.join(', ')}`);
+    checkImage(id, `dots.${k}.image`, s.image, dotColour, '"status", "accent", one of the page\'s colours, #rrggbb or "none"');
+  }
+  if (drawn === 0) problem(id, '"dots" draws no state: give at least one an "image"');
 }
 
 function checkSection(id, t, section, names, valid, what) {
@@ -206,6 +235,7 @@ function checkTheme(id) {
   checkSection(id, t, 'diff', DIFF, HEX_COLOR, 'a colour written #rrggbb or #rrggbbaa');
   if ('floor' in t) problem(id, `a floor goes in themes/${id}.floor.js, not in the theme's file`);
   if (t.cycle !== undefined) checkCycle(id, t);
+  if (t.dots !== undefined) checkDots(id, t);
   const script = readFloor(id);
   if (script !== null) checkFloor(id, t, script);
 }
