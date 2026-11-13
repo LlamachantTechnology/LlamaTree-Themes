@@ -1,0 +1,345 @@
+{
+  "name": "Peach Blossom",
+  "description": "A light theme of rice paper and ink, with jade for the accent, peach blossom pink for sessions at work, and lacquer red and temple gold for warnings.",
+  "base": "light",
+  "minAppVersion": "1.3.2",
+  "accent": {
+    "line": "#2f7d5b",
+    "strong": "#24694b"
+  },
+  "accents": [
+    {
+      "name": "Jade",
+      "color": "#2f7d5b"
+    },
+    {
+      "name": "Lacquer",
+      "color": "#b8322a"
+    },
+    {
+      "name": "Blossom",
+      "color": "#c2477f"
+    },
+    {
+      "name": "Temple gold",
+      "color": "#8f6200"
+    }
+  ],
+  "terminalBackground": 88,
+  "dots": {
+    "about": "A blossom that turns while a session works, a peach when it's done, and a lantern when it needs you.",
+    "size": 12,
+    "idle": {
+      "image": {
+        "viewBox": [
+          0,
+          0,
+          10,
+          10
+        ],
+        "shapes": [
+          {
+            "circle": [
+              5,
+              5,
+              2.6
+            ],
+            "fill": "status",
+            "stroke": "none"
+          }
+        ]
+      }
+    },
+    "working": {
+      "image": {
+        "viewBox": [
+          0,
+          0,
+          10,
+          10
+        ],
+        "shapes": [
+          {
+            "circle": [
+              5,
+              2.3,
+              1.9
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "circle": [
+              7.57,
+              4.17,
+              1.9
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "circle": [
+              6.59,
+              7.18,
+              1.9
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "circle": [
+              3.41,
+              7.18,
+              1.9
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "circle": [
+              2.43,
+              4.17,
+              1.9
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "circle": [
+              5,
+              5,
+              1.1
+            ],
+            "fill": "#fcf9f1",
+            "stroke": "none"
+          }
+        ]
+      },
+      "motion": "spin"
+    },
+    "waiting": {
+      "image": {
+        "viewBox": [
+          0,
+          0,
+          10,
+          10
+        ],
+        "shapes": [
+          {
+            "circle": [
+              5,
+              5.9,
+              3.5
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "path": "M5 2.6 Q7 0.3 9 1.4 Q7.6 3.6 5 2.6 Z",
+            "fill": "ok",
+            "stroke": "none"
+          }
+        ]
+      },
+      "motion": "breathe"
+    },
+    "asking": {
+      "image": {
+        "viewBox": [
+          0,
+          0,
+          10,
+          10
+        ],
+        "shapes": [
+          {
+            "line": [
+              5,
+              0.3,
+              5,
+              1.6
+            ],
+            "width": 1
+          },
+          {
+            "ellipse": [
+              5,
+              5,
+              3.6,
+              3.3
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "rect": [
+              3.2,
+              1.3,
+              3.6,
+              1.1
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "rect": [
+              3.2,
+              7.7,
+              3.6,
+              1.1
+            ],
+            "fill": "status",
+            "stroke": "none"
+          },
+          {
+            "line": [
+              5,
+              8.8,
+              5,
+              9.9
+            ],
+            "width": 1
+          }
+        ]
+      },
+      "motion": "hop"
+    },
+    "stopped": {
+      "image": {
+        "viewBox": [
+          0,
+          0,
+          10,
+          10
+        ],
+        "shapes": [
+          {
+            "circle": [
+              5,
+              5,
+              2.4
+            ],
+            "width": 1.2
+          }
+        ]
+      }
+    }
+  },
+  "colors": {
+    "chrome": "#f1eadb",
+    "chrome-2": "#eae2d0",
+    "chrome-3": "#e2d9c4",
+    "panel": "#f8f3e7",
+    "panel-2": "#f1eadb",
+    "hover": "#e7dfca",
+    "hover-strong": "#dcd2b8",
+    "border": "#d3c8ab",
+    "border-soft": "#e3dac3",
+    "border-strong": "#b5a985",
+    "text": "#2a2723",
+    "text-dim": "#5f594e",
+    "text-faint": "#7f7766",
+    "text-strong": "#14120f",
+    "focus": "#2f7d5b",
+    "select": "#cfe5d3",
+    "select-inactive": "#e0ebd9",
+    "terminal-bg": "#fcf9f1",
+    "editor-bg": "#fcf9f1",
+    "ok": "#3f7a22",
+    "working": "#c2477f",
+    "attention": "#8f6200",
+    "asking": "#6b4fa0",
+    "danger": "#b8322a",
+    "danger-fill": "#b8322a",
+    "st-m": "#8f6200",
+    "st-a": "#3f7a22",
+    "st-d": "#b8322a",
+    "st-r": "#2b6f8f",
+    "st-u": "#6f7a1a",
+    "info-bg": "#e3eddc",
+    "info-border": "#a9c9a4",
+    "error-bg": "#f7ddd6",
+    "error-border": "#dc9c90",
+    "pv-warn-bg": "#f5e8c0",
+    "pv-warn-border": "#d8bb62",
+    "ico-folder": "#b98a2e",
+    "ico-file": "#5f594e",
+    "graph": "#2f7d5b",
+    "ref-bg": "#cfe5d3",
+    "ref-fg": "#2a2723",
+    "ref-head-bg": "#24694b",
+    "ref-head-fg": "#ffffff",
+    "ref-tag-bg": "#f6d9e2",
+    "ref-tag-fg": "#6e1f43",
+    "scroll-thumb": "#d3c8ab",
+    "scroll-thumb-hover": "#b5a985",
+    "tab-border-shown": "#b5a985",
+    "tab-border-hover": "#2f7d5b",
+    "tick": "#d3c8ab",
+    "tick-active": "#5f594e",
+    "tick-hot": "#2f7d5b",
+    "card-bg": "#f8f3e7",
+    "card-border": "#d3c8ab",
+    "bubble": "#f1eadb",
+    "code-fg": "#8f2a24",
+    "code-bg": "#f1eadb",
+    "well": "#eae2d0",
+    "table-head": "#f1eadb",
+    "link": "#2b6f8f",
+    "update-fg": "#ffffff"
+  },
+  "terminal": {
+    "background": "#fcf9f1",
+    "foreground": "#2a2723",
+    "cursor": "#2f7d5b",
+    "cursorAccent": "#fcf9f1",
+    "selectionBackground": "#cfe5d3",
+    "selectionInactiveBackground": "#e0ebd9",
+    "black": "#2a2723",
+    "red": "#b8322a",
+    "green": "#3f7a22",
+    "yellow": "#8f6200",
+    "blue": "#2b6090",
+    "magenta": "#b03f76",
+    "cyan": "#237a78",
+    "white": "#d3c8ab",
+    "brightBlack": "#7a7262",
+    "brightRed": "#c93c31",
+    "brightGreen": "#4a8a26",
+    "brightYellow": "#a37200",
+    "brightBlue": "#3a76ae",
+    "brightMagenta": "#b9457f",
+    "brightCyan": "#237f7d",
+    "brightWhite": "#f1eadb",
+    "overviewRulerBorder": "#fcf9f1",
+    "scrollbarSliderBackground": "#d3c8ab99",
+    "scrollbarSliderHoverBackground": "#b5a985cc",
+    "scrollbarSliderActiveBackground": "#2f7d5b99"
+  },
+  "diff": {
+    "background": "#fcf9f1",
+    "foreground": "#2a2723",
+    "lineNumber": "#7f7766",
+    "lineNumberActive": "#2f7d5b",
+    "selection": "#cfe5d3",
+    "cursor": "#2f7d5b",
+    "lineHighlightBorder": "#e3dac3",
+    "insertedLine": "#9cc98a33",
+    "insertedText": "#74ad5c55",
+    "removedLine": "#e3958a33",
+    "removedText": "#d4645a55",
+    "insertedGutter": "#9cc98a99",
+    "removedGutter": "#e3958a99",
+    "insertedOverview": "#3f7a22cc",
+    "removedOverview": "#b8322acc",
+    "diagonalFill": "#e3dac380",
+    "scrollbar": "#d3c8ab99",
+    "comment": "#7f7766",
+    "keyword": "#b8322a",
+    "string": "#3f7a2a",
+    "number": "#b03f76",
+    "type": "#2b6f8f"
+  },
+  "version": "1.0.0"
+}
