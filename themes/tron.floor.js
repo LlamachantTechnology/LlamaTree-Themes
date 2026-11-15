@@ -124,36 +124,34 @@ function drawRibbon(ctx, now, accent) {
   ctx.globalAlpha = 1;
 }
 
+// The cycle seen from above, nose first, in a 32 by 32 box: a slim body with light lines fore and aft, a cockpit and a hub.
+const BODY = new Path2D('M16 1c-2.8 0-4.8 2.6-4.8 6v4.5l1.6 2.6v3.8l-1.6 2.6v4.5c0 3.4 2 6 4.8 6s4.8-2.6 4.8-6v-4.5l-1.6-2.6v-3.8l1.6-2.6V7c0-3.4-2-6-4.8-6Z');
+const LIGHTS = new Path2D('M16 3.6v6.4m0 12v6.4');
+const COCKPIT = new Path2D('M16 11.7c1.2 0 2 1 2 2.4v3.6c0 1.5-.8 2.5-2 2.5s-2-1-2-2.5v-3.6c0-1.4.8-2.4 2-2.4Z');
+const HUB = new Path2D('M16 12.7a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 0 1 0-2.7Z');
+
 /**
- * The cycle itself, the same picture as the one at the terminals' cursor: side on in a 24 by 16 box, two tall wheels with
- * hubs, the canopy sweeping over them, the rider's back and the white light stripe along the canopy. Its wheels ride the
- * line. Heading left it is mirrored rather than turned over; heading up or down it is turned onto the line.
+ * The cycle itself, seen from above and turned the way it rides, its middle on the line: the body in the floor's colour,
+ * tinted and edged in the accent with a glow, so the Grid doesn't show through it; the light lines with a white core;
+ * the cockpit in the accent and a white hub. About 36 pixels nose to tail.
  */
 function drawCycle(ctx, accent, chrome) {
   ctx.save();
   ctx.translate(cycle.x, cycle.y);
-  if (cycle.dir === 2) ctx.scale(-1, 1); else ctx.rotate((cycle.dir === 3 ? -1 : cycle.dir) * Math.PI / 2);
-  ctx.scale(1.9, 1.9);
-  ctx.translate(-12, -10.5);   // the box's middle on the crossing, the wheels' hubs on the line
-  ctx.shadowColor = accent;
-  ctx.shadowBlur = 12;
+  ctx.rotate((cycle.dir + 1) * Math.PI / 2);   // the picture's nose is up; heading right is a quarter turn
+  ctx.scale(1.125, 1.125);
+  ctx.translate(-16, -16);
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
-  ctx.fillStyle = chrome;
-  ctx.strokeStyle = accent;
-  ctx.lineWidth = 1.4;
-  // The canopy, closed along the wheels' line and filled with the floor's colour so the Grid doesn't show through it.
-  ctx.beginPath(); ctx.moveTo(1.5, 8); ctx.bezierCurveTo(3.5, 3.6, 8, 2.2, 12, 2.6); ctx.bezierCurveTo(16.5, 3, 20.5, 5, 22.5, 8.5); ctx.lineTo(18.5, 10.5); ctx.lineTo(5.5, 10.5); ctx.closePath(); ctx.fill();
-  ctx.beginPath(); ctx.moveTo(1.5, 8); ctx.bezierCurveTo(3.5, 3.6, 8, 2.2, 12, 2.6); ctx.bezierCurveTo(16.5, 3, 20.5, 5, 22.5, 8.5); ctx.stroke();
-  for (const x of [5.5, 18.5]) { ctx.beginPath(); ctx.arc(x, 10.5, 4.6, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); }        // the wheels
-  ctx.beginPath(); ctx.moveTo(8.5, 6.2); ctx.lineTo(10.5, 3.6); ctx.moveTo(9, 10.5); ctx.lineTo(15, 10.5); ctx.stroke();   // the rider's back, and the frame between the wheels
+  ctx.fillStyle = chrome; ctx.strokeStyle = chrome; ctx.lineWidth = 3; ctx.fill(BODY); ctx.stroke(BODY);
+  ctx.globalAlpha = 0.16; ctx.fillStyle = accent; ctx.fill(BODY); ctx.globalAlpha = 1;
+  ctx.shadowColor = accent; ctx.shadowBlur = 12; ctx.strokeStyle = accent;
+  ctx.lineWidth = 1.5; ctx.stroke(BODY);
+  ctx.lineWidth = 2; ctx.stroke(LIGHTS);
   ctx.shadowBlur = 0;
-  ctx.fillStyle = accent;
-  for (const x of [5.5, 18.5]) { ctx.beginPath(); ctx.arc(x, 10.5, 1.3, 0, Math.PI * 2); ctx.fill(); }                      // the hubs
-  ctx.globalAlpha = 0.9;
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(4, 6.4); ctx.bezierCurveTo(8, 3.2, 15, 3, 20, 5.8); ctx.stroke();                             // the light stripe
+  ctx.globalAlpha = 0.5; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 0.8; ctx.stroke(LIGHTS);
+  ctx.globalAlpha = 0.5; ctx.fillStyle = accent; ctx.fill(COCKPIT);
+  ctx.globalAlpha = 0.95; ctx.fillStyle = '#ffffff'; ctx.fill(HUB);
   ctx.restore();
   ctx.globalAlpha = 1;
 }
