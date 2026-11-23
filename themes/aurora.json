@@ -1,0 +1,74 @@
+{
+  "name": "Aurora",
+  "version": "1.0.0",
+  "minAppVersion": "1.3.2",
+  "description": "Aurora green on a deep night, with the northern lights folding over a dark lake, bare trees leaning over a snowy bank: livelier as sessions work",
+  "author": "Llamachant Technology",
+  "base": "dark",
+  "font": "Segoe UI Variable Text",
+  "glow": true,
+  "terminalBackground": 88,
+  "accents": [
+    { "name": "Aurora green", "color": "#4ff0c0" },
+    { "name": "Violet", "color": "#b18cff" },
+    { "name": "Ice", "color": "#7fd8ff" }
+  ],
+  "colors": {
+    "chrome": "#050b13", "chrome-2": "#04080f", "chrome-3": "#02050a",
+    "panel": "#08131d", "panel-2": "#0f1829", "hover": "#142036", "hover-strong": "#1b2a45",
+    "border": "#1d2a3d", "border-soft": "#141f2f", "border-strong": "#2b3d57",
+    "text": "#e4ecf7", "text-dim": "#93a3ba", "text-faint": "#5d6c83", "text-strong": "#ffffff",
+    "focus": "#4ff0c0", "select": "#17304a", "select-inactive": "#13263b",
+    "terminal-bg": "#070c16", "editor-bg": "#08101c",
+    "ok": "#4ff0c0", "working": "#7aa8ff", "attention": "#ffcf6b", "asking": "#d08bff", "danger": "#ff6b81", "danger-fill": "#8f2a3d",
+    "st-m": "#ffcf6b", "st-a": "#4ff0c0", "st-d": "#ff6b81", "st-r": "#7fd8ff", "st-u": "#c8f08f",
+    "info-bg": "#0e2233", "info-border": "#24506b", "error-bg": "#2a0f17", "error-border": "#6e2a3a",
+    "pv-warn-bg": "#2a230d", "pv-warn-border": "#6b5a26",
+    "ico-folder": "#ffcf6b", "ico-file": "#93a3ba", "graph": "#3fbf9a",
+    "ref-bg": "#17304a", "ref-fg": "#dbe8f5", "ref-head-bg": "#11866a", "ref-head-fg": "#ffffff", "ref-tag-bg": "#3a2f12", "ref-tag-fg": "#ffe3a6",
+    "scroll-thumb": "#1d2a3d", "scroll-thumb-hover": "#2b3d57",
+    "tab-border-shown": "#3fbf9a", "tab-border-hover": "#4ff0c0",
+    "tick": "#1d2a3d", "tick-active": "#93a3ba", "tick-hot": "#4ff0c0",
+    "card-bg": "#0b1220", "card-border": "#1d2a3d", "bubble": "#0f1829",
+    "code-fg": "#a8f5dc", "code-bg": "#04070e", "well": "#04070e", "table-head": "#0f1829",
+    "link": "#7fd8ff", "update-fg": "#ffffff"
+  },
+  "terminal": {
+    "background": "#070c16", "foreground": "#dfe8f5", "cursor": "#4ff0c0", "cursorAccent": "#070c16",
+    "selectionBackground": "#1e3a5a", "selectionInactiveBackground": "#172e48",
+    "black": "#101a2a", "red": "#ff6b81", "green": "#4ff0c0", "yellow": "#ffcf6b", "blue": "#7aa8ff", "magenta": "#c48bff", "cyan": "#6fe3ff", "white": "#dfe8f5",
+    "brightBlack": "#5d6c83", "brightRed": "#ff98a8", "brightGreen": "#8ff7d6", "brightYellow": "#ffe0a0", "brightBlue": "#a8c6ff", "brightMagenta": "#dcb6ff", "brightCyan": "#a6efff", "brightWhite": "#ffffff",
+    "overviewRulerBorder": "#070c16",
+    "scrollbarSliderBackground": "#1d2a3d99", "scrollbarSliderHoverBackground": "#2b3d57cc", "scrollbarSliderActiveBackground": "#4ff0c099"
+  },
+  "diff": {
+    "background": "#08101c", "foreground": "#dfe8f5", "lineNumber": "#5d6c83", "lineNumberActive": "#4ff0c0",
+    "selection": "#1e3a5a", "cursor": "#4ff0c0", "lineHighlightBorder": "#141f2f",
+    "insertedLine": "#1a5a4655", "insertedText": "#2fa08066", "removedLine": "#6a1f2e55", "removedText": "#b0364e66",
+    "insertedGutter": "#1a5a4699", "removedGutter": "#6a1f2e99", "insertedOverview": "#4ff0c0cc", "removedOverview": "#ff6b81cc",
+    "diagonalFill": "#141f2f80", "scrollbar": "#1d2a3d99",
+    "comment": "#5f7891", "keyword": "#7aa8ff", "string": "#ffcf6b", "number": "#c48bff", "type": "#4ff0c0"
+  },
+  "dots": {
+    "about": "Points of light: a star turning while it works, a diamond pulsing when it needs you, a glow breathing when it's done.",
+    "working": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [
+        { "path": "M5 0 L6.2 3.8 L10 5 L6.2 6.2 L5 10 L3.8 6.2 L0 5 L3.8 3.8 Z", "fill": "status", "stroke": "none" }
+      ] },
+      "motion": "spin"
+    },
+    "asking": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [
+        { "polygon": [5, 0.5, 9.5, 5, 5, 9.5, 0.5, 5], "fill": "status", "stroke": "none" }
+      ] },
+      "motion": "pulse"
+    },
+    "waiting": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [{ "circle": [5, 5, 4], "fill": "status", "stroke": "none" }] },
+      "motion": "breathe"
+    },
+    "idle": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [{ "circle": [5, 5, 2.4], "fill": "status", "stroke": "none" }] }
+    }
+  }
+}

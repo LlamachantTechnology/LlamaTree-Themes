@@ -8,6 +8,7 @@ Themes for [LlamaTree](https://github.com/LlamachantTechnology/LlamaTree), one f
 | Theme | What it looks like | Version | Base | Effects |
 |---|---|---|---|---|
 | [Abyss](themes/abyss.json) | Bioluminescent cyan on deep water, looking up at a sunlit surface through swaying light shafts, with rising bubbles and sinking marine snow | 1.0.0 | dark | glow, its own status dots, its own floor |
+| [Aurora](themes/aurora.json) | Aurora green on a deep night, with the northern lights folding over a dark lake, bare trees leaning over a snowy bank: livelier as sessions work | 1.0.0 | dark | glow, its own status dots, its own floor |
 | [Cyberpunk](themes/cyberpunk.json) | Electric yellow on near-black with neon cyan and magenta, over a glitching city screen: circuit traces, a skyline under magenta haze and an access matrix solving itself | 1.0.0 | dark | glow, its own floor |
 | [Deep Sea](themes/deep-sea.json) | Navy water with sea-glass teal for lines and the accent, coral for what went wrong and sand for what needs you | 1.0.0 | dark |  |
 | [Ember](themes/ember.json) | Warm charcoal lit by a coal-orange accent with a faint glow, olive for what went well and rose for a question | 1.0.0 | dark | glow |
