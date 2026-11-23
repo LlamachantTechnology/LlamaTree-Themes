@@ -1,0 +1,77 @@
+{
+  "name": "Abyss",
+  "version": "1.0.0",
+  "minAppVersion": "1.3.2",
+  "description": "Bioluminescent cyan on deep water, looking up at a sunlit surface through swaying light shafts, with rising bubbles and sinking marine snow",
+  "author": "Llamachant Technology",
+  "base": "dark",
+  "font": "Segoe UI",
+  "glow": true,
+  "terminalBackground": 80,
+  "accents": [
+    { "name": "Lumen cyan", "color": "#39d5ff" },
+    { "name": "Jelly pink", "color": "#ff6fd8" },
+    { "name": "Kelp", "color": "#3ff2b0" }
+  ],
+  "colors": {
+    "chrome": "#020912", "chrome-2": "#01060d", "chrome-3": "#000409",
+    "panel": "#06131f", "panel-2": "#0a1b2a", "hover": "#0e2335", "hover-strong": "#143049",
+    "border": "#123048", "border-soft": "#0b2133", "border-strong": "#1d4a6b",
+    "text": "#cfeefc", "text-dim": "#7aa3b8", "text-faint": "#4a6a7c", "text-strong": "#ffffff",
+    "focus": "#39d5ff", "select": "#0f3a55", "select-inactive": "#0b2c42",
+    "terminal-bg": "#031019", "editor-bg": "#041320",
+    "ok": "#3ff2b0", "working": "#39d5ff", "attention": "#ffd166", "asking": "#ff6fd8", "danger": "#ff5c7a", "danger-fill": "#8a1f36",
+    "st-m": "#ffd166", "st-a": "#3ff2b0", "st-d": "#ff5c7a", "st-r": "#8be9ff", "st-u": "#c9f27a",
+    "info-bg": "#062636", "info-border": "#14506b", "error-bg": "#2a0c16", "error-border": "#6e2236",
+    "pv-warn-bg": "#2a2208", "pv-warn-border": "#6b5a20",
+    "ico-folder": "#ffd166", "ico-file": "#7aa3b8", "graph": "#1f9cc4",
+    "ref-bg": "#0f3a55", "ref-fg": "#cfeefc", "ref-head-bg": "#0a74a0", "ref-head-fg": "#ffffff", "ref-tag-bg": "#3a2f0c", "ref-tag-fg": "#ffe3a0",
+    "scroll-thumb": "#123048", "scroll-thumb-hover": "#1d4a6b",
+    "tab-border-shown": "#1f9cc4", "tab-border-hover": "#39d5ff",
+    "tick": "#123048", "tick-active": "#7aa3b8", "tick-hot": "#39d5ff",
+    "card-bg": "#06131f", "card-border": "#123048", "bubble": "#0a1b2a",
+    "code-fg": "#9fe8ff", "code-bg": "#01060d", "well": "#01060d", "table-head": "#0a1b2a",
+    "link": "#5fd8ff", "update-fg": "#ffffff"
+  },
+  "terminal": {
+    "background": "#031019", "foreground": "#cbeaf7", "cursor": "#39d5ff", "cursorAccent": "#031019",
+    "selectionBackground": "#12466a", "selectionInactiveBackground": "#0e3550",
+    "black": "#0a1e2c", "red": "#ff5c7a", "green": "#3ff2b0", "yellow": "#ffd166", "blue": "#39a6ff", "magenta": "#ff6fd8", "cyan": "#39d5ff", "white": "#cbeaf7",
+    "brightBlack": "#4a6a7c", "brightRed": "#ff8fa3", "brightGreen": "#85f7cf", "brightYellow": "#ffe29a", "brightBlue": "#7cc4ff", "brightMagenta": "#ffa3e8", "brightCyan": "#8be9ff", "brightWhite": "#ffffff",
+    "overviewRulerBorder": "#031019",
+    "scrollbarSliderBackground": "#12304899", "scrollbarSliderHoverBackground": "#1d4a6bcc", "scrollbarSliderActiveBackground": "#39d5ff99"
+  },
+  "diff": {
+    "background": "#041320", "foreground": "#cbeaf7", "lineNumber": "#4a6a7c", "lineNumberActive": "#39d5ff",
+    "selection": "#12466a", "cursor": "#39d5ff", "lineHighlightBorder": "#0b2133",
+    "insertedLine": "#0f5a4a55", "insertedText": "#15a08066", "removedLine": "#6a1f3055", "removedText": "#b0304e66",
+    "insertedGutter": "#0f5a4a99", "removedGutter": "#6a1f3099", "insertedOverview": "#3ff2b0cc", "removedOverview": "#ff5c7acc",
+    "diagonalFill": "#0b213380", "scrollbar": "#12304899",
+    "comment": "#4f7d92", "keyword": "#39a6ff", "string": "#ffd166", "number": "#ff6fd8", "type": "#39d5ff"
+  },
+  "dots": {
+    "about": "Tiny jellyfish: one breathes while it works and hops when it needs you; a glow pulses when it's done.",
+    "size": 11,
+    "working": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [
+        { "path": "M1 5.2 A4 4 0 0 1 9 5.2 Q5 4.2 1 5.2 Z", "fill": "status", "stroke": "none" },
+        { "path": "M3 5.6 Q2.4 7.6 3.2 9.6 M5 5.4 L5 9.8 M7 5.6 Q7.6 7.6 6.8 9.6", "stroke": "status", "width": 0.8 }
+      ] },
+      "motion": "breathe"
+    },
+    "asking": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [
+        { "path": "M1 5.2 A4 4 0 0 1 9 5.2 Q5 4.2 1 5.2 Z", "fill": "status", "stroke": "none" },
+        { "path": "M3 5.6 Q2.4 7.6 3.2 9.6 M5 5.4 L5 9.8 M7 5.6 Q7.6 7.6 6.8 9.6", "stroke": "status", "width": 0.8 }
+      ] },
+      "motion": "hop"
+    },
+    "waiting": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [{ "circle": [5, 5, 4], "fill": "status", "stroke": "none" }] },
+      "motion": "pulse"
+    },
+    "idle": {
+      "image": { "viewBox": [0, 0, 10, 10], "shapes": [{ "circle": [5, 5, 2.2], "fill": "status", "stroke": "none" }] }
+    }
+  }
+}
